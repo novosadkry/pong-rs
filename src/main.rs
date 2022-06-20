@@ -1,4 +1,6 @@
-use pong::game::*;
+pub mod game;
+
+use game::Pong;
 use amethyst::{
     prelude::*,
     renderer::{
@@ -7,15 +9,16 @@ use amethyst::{
         RenderingBundle
     },
     core::TransformBundle,
-    utils::application_root_dir,
+    input::{InputBundle, StringBindings},
+    utils::application_root_dir
 };
 
 fn main() -> amethyst::Result<()> {
     amethyst::start_logger(Default::default());
 
     let app_root = application_root_dir()?;
-    let display_config_path = app_root
-        .join("config").join("display.ron");
+    let display_config_path = app_root.join("config").join("display.ron");
+    let binding_config_path = app_root.join("config").join("binding.ron");
 
     let game_data = GameDataBuilder::default()
         .with_bundle(RenderingBundle::<DefaultBackend>::new()
@@ -24,7 +27,10 @@ fn main() -> amethyst::Result<()> {
             )
             .with_plugin(RenderFlat2D::default())
         )?
-        .with_bundle(TransformBundle::new())?;
+        .with_bundle(TransformBundle::new())?
+        .with_bundle(InputBundle::<StringBindings>::new()
+            .with_bindings_from_file(binding_config_path)?
+        )?;
 
     let assets_dir = app_root.join("assets");
     let mut game = Application::new(assets_dir, Pong, game_data)?;

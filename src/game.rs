@@ -1,5 +1,10 @@
-use crate::assets::*;
-use amethyst::{
+pub mod assets;
+pub mod systems;
+
+pub use self::assets::*;
+pub use self::systems::*;
+
+pub use amethyst::{
     prelude::*,
     core::transform::Transform,
     ecs::{Component, DenseVecStorage},
