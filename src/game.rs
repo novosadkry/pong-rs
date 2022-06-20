@@ -48,8 +48,6 @@ impl Component for Paddle {
 impl SimpleState for Pong {
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
         let world = data.world;
-        world.register::<Paddle>();
-
         let sprite_sheet_handle = load_sprite_sheet(world);
 
         initialize_camera(world);

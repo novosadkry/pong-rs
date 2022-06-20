@@ -1,6 +1,6 @@
 pub mod game;
 
-use game::Pong;
+use game::{Pong, systems::*};
 use amethyst::{
     prelude::*,
     renderer::{
@@ -30,7 +30,8 @@ fn main() -> amethyst::Result<()> {
         .with_bundle(TransformBundle::new())?
         .with_bundle(InputBundle::<StringBindings>::new()
             .with_bindings_from_file(binding_config_path)?
-        )?;
+        )?
+        .with(PaddleSystem, "paddle_system", &["input_system"]);
 
     let assets_dir = app_root.join("assets");
     let mut game = Application::new(assets_dir, Pong, game_data)?;
