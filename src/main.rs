@@ -1,15 +1,14 @@
+use pong::game::*;
 use amethyst::{
     prelude::*,
     renderer::{
         plugins::{RenderFlat2D, RenderToWindow},
         types::DefaultBackend,
-        RenderingBundle,
+        RenderingBundle
     },
+    core::TransformBundle,
     utils::application_root_dir,
 };
-
-pub struct Pong;
-impl SimpleState for Pong {}
 
 fn main() -> amethyst::Result<()> {
     amethyst::start_logger(Default::default());
@@ -24,7 +23,8 @@ fn main() -> amethyst::Result<()> {
                 .with_clear([0, 0, 0, 1])
             )
             .with_plugin(RenderFlat2D::default())
-        )?;
+        )?
+        .with_bundle(TransformBundle::new())?;
 
     let assets_dir = app_root.join("assets");
     let mut game = Application::new(assets_dir, Pong, game_data)?;
